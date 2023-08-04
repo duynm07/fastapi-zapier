@@ -6,7 +6,7 @@ app = FastAPI()
 def read_root():
     return {"Hello": "World"}
 
-@app.post("https://hooks.zapier.com/hooks/catch/16132664/31x07ar/")
+@app.post("https://hooks.zapier.com/hooks/catch/16132664/31ph42a/")
 def webhook(payload: dict):
     # Handle the payload from Zapier
     print("Received data:", payload)
