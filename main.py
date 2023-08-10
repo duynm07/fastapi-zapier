@@ -42,6 +42,7 @@ async def ocr(my_str: str):
 @app.post("/convert_pdf_to_images/")
 async def convert_pdf_to_images(pdf_file: UploadFile = File(...)):
     # Create a temporary directory to store images
+    print(">>> convert_pdf_to_images")
     temp_dir = "temp_images"
     os.makedirs(temp_dir, exist_ok=True)
 
@@ -52,6 +53,7 @@ async def convert_pdf_to_images(pdf_file: UploadFile = File(...)):
 
     # Convert PDF pages to images
     images = convert_from_path(pdf_path)
+    print(f">>> Converted {len(images)} pages to images.")
 
     # Save images and collect their paths
     image_paths = []
@@ -62,6 +64,7 @@ async def convert_pdf_to_images(pdf_file: UploadFile = File(...)):
 
     # Create a zip file containing images
     zip_path = os.path.join(temp_dir, "images.zip")
+    print(f">>> Zipping ...")
     with zipfile.ZipFile(zip_path, "w") as zipf:
         for image_path in image_paths:
             zipf.write(image_path, os.path.basename(image_path))
@@ -71,5 +74,6 @@ async def convert_pdf_to_images(pdf_file: UploadFile = File(...)):
         os.remove(image_path)
     os.remove(pdf_path)
 
+    print(f">>> Ready to download.")
     # Return the zip file
     return FileResponse(zip_path, headers={"Content-Disposition": "attachment; filename=images.zip"})
