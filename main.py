@@ -9,12 +9,15 @@ app = FastAPI()
 
 @app.post("/test", status_code=status.HTTP_200_OK)
 async def ocr(file: UploadFile = File(...)):
+    current_datetime = datetime.datetime.now()
+    formatted_datetime = current_datetime.strftime('%Y-%m-%d %H:%M:%S')
+    print("New request", formatted_datetime)
     try:
         file_data = file.read()
-        print(file_data)
         # image_data = await file.read()
         # image = Image.open(BytesIO(image_data)).convert("RGB")
 
         return JSONResponse(content={"message": "Success"})
     except Exception as e:
+        print(f">>> Error: {e}")
         return JSONResponse(content={"error": str(e)}, status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
