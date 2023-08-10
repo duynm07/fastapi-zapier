@@ -21,3 +21,15 @@ async def ocr(file: UploadFile = File(...)):
     except Exception as e:
         print(f">>> Error: {e}")
         return JSONResponse(content={"error": str(e)}, status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@app.post("/tests", status_code=status.HTTP_200_OK)
+async def ocr(my_str: str):
+    current_datetime = datetime.datetime.now()
+    formatted_datetime = current_datetime.strftime('%Y-%m-%d %H:%M:%S')
+    print("New request", formatted_datetime, my_str)
+    try:
+        
+        return JSONResponse(content={"message": "Success", "content": my_str})
+    except Exception as e:
+        print(f">>> Error: {e}")
+        return JSONResponse(content={"error": str(e)}, status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
