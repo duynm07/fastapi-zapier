@@ -3,7 +3,6 @@ from typing import Optional
 
 from fastapi import APIRouter, File, UploadFile, FastAPI
 from fastapi.responses import JSONResponse
-from PIL import Image
 from starlette import status
 
 app = FastAPI()
