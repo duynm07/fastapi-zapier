@@ -40,16 +40,16 @@ async def ocr(my_str: str):
         return JSONResponse(content={"error": str(e)}, status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
 @app.post("/convert_pdf_to_images/")
-async def convert_pdf_to_images(pdf_file: UploadFile = File(...)):
+async def convert_pdf_to_images(file: UploadFile = File(...)):
     # Create a temporary directory to store images
     print(">>> convert_pdf_to_images")
     temp_dir = "temp_images"
     os.makedirs(temp_dir, exist_ok=True)
 
     # Save the uploaded PDF file
-    pdf_path = os.path.join(temp_dir, pdf_file.filename)
+    pdf_path = os.path.join(temp_dir, file.filename)
     with open(pdf_path, "wb") as pdf_buffer:
-        pdf_buffer.write(pdf_file.file.read())
+        pdf_buffer.write(file.file.read())
 
     # Convert PDF pages to images
     images = convert_from_path(pdf_path)
